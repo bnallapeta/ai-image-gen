@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: image-generator-pipeline-run
+spec:
+  secrets:
+    - name: openaiapikey
+      secretRef:
+        name: openaiapikey
+  pipelineSpec:
+    tasks:
+      - name: generate-image
+        taskSpec:
+          steps:
+            - name: generate-image
+              image: quay.io/bnr/ai-image-generator:latest
+              envFrom:
+                - secretRef:
+                    name: openaiapikey
